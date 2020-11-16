@@ -1,0 +1,1904 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge" />
+  <link rel="stylesheet" type="text/css" href="styles.css">
+  <script src="index.js" type="text/javascript"></script>
+    <script src="publish.js" charset="utf-8"></script>
+    <script src="hex-rgb.js"></script>
+    <script src="hex-rgb.src.js"></script>
+    
+<script type="text/javascript">
+let api = new Scorm({
+  exitValue: null,
+  score: {
+    min: 0,
+    max: 100
+  },
+  debugger: function(err, msg, param, value) {
+    console.log(err, param, value);
+  }
+}, function(api, message) {
+});
+// function initCourse(){
+//    //scorm.init returns a boolean
+//    lmsConnected = scorm.init();
+//    //If the scorm.init function succeeded...
+//    if(lmsConnected){
+//       //Let's get the completion status to see if the course has already been completed
+//       var completionstatus = scorm.get("cmi.core.lesson_status");
+//       //If the course has already been completed...
+//       if(completionstatus == "completed" || completionstatus == "passed"){
+//          //...let's display a message and close the browser window
+//          handleError("You have already completed this course. You do not need to continue.");
+//       }
+//       //Now let's get the username from the LMS
+//       var learnername = scorm.get("cmi.core.student_name");
+//       //If the name was successfully retrieved...
+//       if(learnername){
+//          //...let's display the username in a page element named "learnername"
+//          document.getElementById("learnername").innerHTML = learnername; //use the name in the form
+//       }
+   //If the course couldn't connect to the LMS for some reason...
+  //  } else {
+      //... let's alert the user then close the window.
+      // handleError("Error: Course could not connect with the LMS");
+  //  }
+// }
+    // function menuToggle(){
+    //     if(document.getElementById("chapterMenu").style.left == "0px"){
+    //         document.getElementById("chapterMenu").style.left = "-50%";
+    //         document.getElementById("chapterMenu").style.opacity = "0";
+    //         document.getElementById("chapterMenu").style.pointerEvents = "none";
+    //     }else{
+    //         document.getElementById("chapterMenu").style.left = "0px"
+    //         document.getElementById("chapterMenu").style.opacity = "1";
+    //         document.getElementById("chapterMenu").style.pointerEvents = "all";;
+    //     }
+    // }
+
+
+function publishFunc(){
+  var videoF = new ActiveXObject("Scripting.FileSystemObject");
+  videoF.CopyFile (window.vidFil, "publish\\video.mp4");
+  if(window.imgFil == undefined){}else{
+      var imgF = new ActiveXObject("Scripting.FileSystemObject");
+      imgF.CopyFile (window.imgFil, "publish\\bg.jpg");
+    }
+    var indexF = new ActiveXObject("Scripting.FileSystemObject");
+    a = indexF.CreateTextFile ("publish\\index.html", true);
+    a.write(window.vidFil);
+    a.close;
+
+}
+function showFileName(){
+   var fil = document.getElementById("myFile");
+   window.vidFil = fil.value;
+   //alert(fil.value);
+   document.getElementById("myVid").src = fil.value;
+   document.getElementById("myVid").style.opacity = 1;
+   document.getElementById("videoOverlay").style.opacity = 1;
+   if(window.whatScreen == 2){
+     switchScreen();
+   }
+   setTimeout(function(){ whenResize();document.getElementById("myVid").currentTime="0";document.getElementById("timeLine").value="0";}, 500);
+   setTimeout(function(){ document.getElementById("timeLine").max = document.getElementById("myVid").duration; }, 500);
+}
+
+// function showBGName() {
+//    var fil = document.getElementById("myBG");
+//    window.imgFil = fil.value;
+//    //alert(fil.value);
+//    replaceSlash = fil.value.replace(/\\/g, "/");
+//    document.getElementById("wrapper").style.backgroundImage = "url('"+replaceSlash+"')";
+// }
+
+function makeLTR(){
+  //document.getElementById("LTRBTN").style.borderStyle = "inset";
+  //document.getElementById("RTLBTN").style.borderStyle = "outset";
+  document.getElementById("vidWrapper").style.left = "0";
+  document.getElementById("realQuestDiv").style.left = "0";
+  // document.getElementById("textDiv").style.left = "14%";
+  whatDir = "ltr";
+  // document.getElementById("endingDiv").style.left = "14%";
+  // document.getElementById("endingDiv").style.direction = "ltr";
+  document.getElementById("realQuestDiv").style.direction = "ltr";
+  // document.getElementById("nextBTN").style.right = "6%";
+  // document.getElementById("nextBTN").style.left = "auto";
+  // document.getElementById("textTitle").style.marginLeft = "-40px";
+  // document.getElementById("textTitle").style.marginRight = "auto";
+  // document.getElementById("endTitle").style.marginLeft = "-40px";
+  // document.getElementById("endTitle").style.marginRight = "auto";
+  // document.getElementById("endBTN").style.float = "right";
+  // document.getElementById("restartBTN").style.float = "right";
+  // var x = document.getElementsByClassName("realQuest");
+  // var i;
+  // for (i = 0; i < x.length; i++) {
+  //   if(whatDir !== "rtl"){
+  //     x[i].style.left = "-150%";
+  //   }else{
+  //     //x[i].style.left = "150%";
+  //     x[i].style.right = "-450%";
+  //   }
+  // }
+  // var x = document.getElementsByClassName("realMarkD");
+  // var i;
+  // for (i = 0; i < x.length; i++) {
+  //   if(whatDir !== "rtl"){
+  //     x[i].style.left = "-150%";
+  //   }else{
+  //     //x[i].style.left = "150%";
+  //     x[i].style.right = "-450%";
+  //   }
+  // }
+  var x = document.getElementsByClassName("questQuestMark");
+  var i;
+  for (i = 0; i < x.length; i++) {
+      x[i].style.right = "auto";
+      x[i].style.left = "5%"
+  }
+
+  var x = document.getElementsByClassName("questTime");
+  var i;
+  for (i = 0; i < x.length; i++) {
+      x[i].style.right = "auto";
+      x[i].style.left = "-3vw";
+  }
+
+  var x = document.getElementsByClassName("starTitle");
+  var i;
+  for (i = 0; i < x.length; i++) {
+      x[i].style.float = "left"
+      x[i].style.clear = "left"
+  }
+  var x = document.getElementsByClassName("starDiv");
+  var i;
+  for (i = 0; i < x.length; i++) {
+    x[i].style.float = "right"
+    x[i].style.clear = "right"
+  }
+  var x = document.getElementsByClassName("starSpan");
+  var i;
+  for (i = 0; i < x.length; i++) {
+    x[i].style.paddingLeft = "1em"
+    x[i].style.paddingRight = "0"
+  }
+  var x = document.getElementsByClassName("starStar");
+  var i;
+  for (i = 0; i < x.length; i++) {
+    x[i].style.float = "left"
+  }
+  var x = document.getElementsByClassName("starAns");
+  var i;
+  for (i = 0; i < x.length; i++) {
+    x[i].style.left = "auto"
+    x[i].style.right = ".2em"
+  }
+
+  var x = document.getElementsByClassName("inputNumDiv");
+  var i;
+  for (i = 0; i < x.length; i++) {
+      x[i].style.paddingRight = "0";
+      x[i].style.paddingLeft = "40%";
+      x[i].style.left = "0";
+      x[i].style.right = "auto";
+  }
+    var x = document.getElementsByClassName("questQuest");
+    var i;
+    for (i = 0; i < x.length; i++) {
+        x[i].style.right = "auto";
+        x[i].style.left = "5%"
+    }
+    var x = document.getElementsByClassName("questRadio");
+    var i;
+    for (i = 0; i < x.length; i++) {
+        x[i].style.marginRight = "0px";
+        x[i].style.marginLeft = "25px";
+    }
+    var x = document.getElementsByClassName("questMany");
+    var i;
+    for (i = 0; i < x.length; i++) {
+        x[i].style.marginRight = "0px";
+        x[i].style.marginLeft = "25px";
+    }
+    var x = document.getElementsByClassName("questNext");
+    var i;
+    for (i = 0; i < x.length; i++) {
+        x[i].style.left = "auto";
+        x[i].style.right = "0";
+    }
+}
+function makeRTL(){
+  //document.getElementById("LTRBTN").style.borderStyle = "outset";
+  //document.getElementById("RTLBTN").style.borderStyle = "inset";
+  document.getElementById("vidWrapper").style.left = "0";
+  document.getElementById("realQuestDiv").style.left = "70%";
+  // document.getElementById("textDiv").style.left = "38%";
+  whatDir = "rtl";
+  document.getElementById("endingDiv").style.left = "38%";
+  document.getElementById("endingDiv").style.direction = "rtl";
+  document.getElementById("realQuestDiv").style.direction = "rtl";
+  document.getElementById("nextBTN").style.right = "auto";
+  document.getElementById("nextBTN").style.left = "6%";
+  document.getElementById("textTitle").style.marginLeft = "auto";
+  document.getElementById("textTitle").style.marginRight = "-40px";
+  document.getElementById("endTitle").style.marginLeft = "auto";
+  document.getElementById("endTitle").style.marginRight = "-40px";
+  document.getElementById("endBTN").style.float = "left";
+  document.getElementById("restartBTN").style.float = "left";
+  // var x = document.getElementsByClassName("realQuest");
+  // var i;
+  // for (i = 0; i < x.length; i++) {
+  //   if(whatDir !== "rtl"){
+  //     x[i].style.left = "-150%";
+  //   }else{
+  //     //x[i].style.left = "150%";
+  //     x[i].style.right = "-450%";
+  //   }
+  // }
+  // var x = document.getElementsByClassName("realMarkD");
+  // var i;
+  // for (i = 0; i < x.length; i++) {
+  //   if(whatDir !== "rtl"){
+  //     x[i].style.left = "-150%";
+  //   }else{
+  //     //x[i].style.left = "150%";
+  //     x[i].style.right = "-450%";
+  //   }
+  // }
+  var x = document.getElementsByClassName("starTitle");
+  var i;
+  for (i = 0; i < x.length; i++) {
+      x[i].style.float = "right"
+      x[i].style.clear = "right"
+  }
+  var x = document.getElementsByClassName("starDiv");
+  var i;
+  for (i = 0; i < x.length; i++) {
+    x[i].style.float = "left"
+    x[i].style.clear = "left"
+  }
+  var x = document.getElementsByClassName("starSpan");
+  var i;
+  for (i = 0; i < x.length; i++) {
+    x[i].style.paddingLeft = "0"
+    x[i].style.paddingRight = "1em"
+  }
+  var x = document.getElementsByClassName("starStar");
+  var i;
+  for (i = 0; i < x.length; i++) {
+    x[i].style.float = "right"
+  }
+  var x = document.getElementsByClassName("starAns");
+  var i;
+  for (i = 0; i < x.length; i++) {
+    x[i].style.left = ".2em"
+    x[i].style.right = "auto"
+  }
+
+  var x = document.getElementsByClassName("questTime");
+  var i;
+  for (i = 0; i < x.length; i++) {
+      x[i].style.right = "-3vw";
+      x[i].style.left = "auto";
+  }
+  var x = document.getElementsByClassName("inputNumDiv");
+  var i;
+  for (i = 0; i < x.length; i++) {
+      x[i].style.paddingRight = "40%";
+      x[i].style.paddingLeft = "0";
+      x[i].style.left = "auto";
+      x[i].style.right = "0";
+  }
+  var x = document.getElementsByClassName("questQuest");
+  var i;
+  for (i = 0; i < x.length; i++) {
+      x[i].style.right = "5%"
+      x[i].style.left = "auto"
+  }
+  var x = document.getElementsByClassName("questQuestMark");
+  var i;
+  for (i = 0; i < x.length; i++) {
+      x[i].style.right = "5%"
+      x[i].style.left = "auto"
+  }
+  var x = document.getElementsByClassName("questRadio");
+  var i;
+  for (i = 0; i < x.length; i++) {
+    x[i].style.marginRight = "25px";
+    x[i].style.marginLeft = "0px";
+  }
+  var x = document.getElementsByClassName("questMany");
+  var i;
+  for (i = 0; i < x.length; i++) {
+    x[i].style.marginRight = "25px";
+    x[i].style.marginLeft = "0px";
+  }
+  var x = document.getElementsByClassName("questNext");
+  var i;
+  for (i = 0; i < x.length; i++) {
+      x[i].style.right = "auto";
+      x[i].style.left = "0";
+  }
+}
+
+// function switchScreen(){
+//     window.chapterVar = "1";
+//   if(window.whatScreen == 1){
+//     document.getElementById("vidWrapper").style.top = "100%";
+//     document.getElementById("realQuestDiv").style.top = "100%";
+//     document.getElementById("textDiv").style.top = "14%";
+//     document.getElementById("endingDiv").style.top = "-80%";
+//     document.getElementById("wrapper").style.backgroundPosition = "top left";
+//     window.whatScreen = 2;
+//     window.alreadyPlay = 1;
+//     //videoPlay();
+//   }else{
+//     if(window.whatScreen == 2){
+//         document.getElementById("menuBtnToggle").style.opacity = "1";
+//       document.getElementById("menuBtnToggle").style.pointerEvents = "all";
+//     document.getElementById("vidWrapper").style.top = 0;
+//     var whatTop = document.getElementById("myVid").offsetTop;
+//     document.getElementById("realQuestDiv").style.top = whatTop+"px";
+//     document.getElementById("textDiv").style.top = "-80%";
+//     document.getElementById("endingDiv").style.top = "-80%";
+//     document.getElementById("wrapper").style.backgroundPosition = "bottom left";
+//     window.whatScreen = 3;
+//     window.alreadyPlay = 1;
+//     //videoPlay();
+//     questResize();
+//   }else{
+//       document.getElementById("menuBtnToggle").style.opacity = "0";
+//       document.getElementById("menuBtnToggle").style.pointerEvents = "none";
+//     document.getElementById("vidWrapper").style.top = "100%";
+//     document.getElementById("realQuestDiv").style.top = "100%";
+//     document.getElementById("endingDiv").style.top = "14%";
+//     document.getElementById("endingDiv").style.opacity = "1";
+//     document.getElementById("textDiv").style.top = "-80%";
+//     document.getElementById("textDiv").style.opacity = "0";
+//     document.getElementById("wrapper").style.backgroundPosition = "top left";
+//     //window.whatScreen = 1;
+//     window.alreadyPlay = 1;
+//     if(document.getElementById("scoreEnd").innerText.length >= 2){
+//       document.getElementById("scoreEnd").innerHTML = window.realScore;
+//         document.getElementById("scoreEnd").style.display = "block";
+//     }
+
+//   }
+// }
+// }
+    // function loadMenu(){
+    //     //alert(window.jsMenu);
+    //     //document.getElementById("innerMenu").innerHTML = "";
+    //   window.menuItems=0;
+    //   var x = window.jsMenu.split("~");
+    //   var i;
+    //   for (i = 1; i < x.length; i++) {
+    //       addMenuItem();
+    //       document.getElementsByClassName("titleMenu")[i-1].innerHTML = x[i].split(",")[0];
+    //       //document.getElementsByClassName("titleMenu")[i-1].className += " _"+x[i].split(",")[1];
+    //       document.getElementsByClassName("titleMenu")[i-1].id = x[i].split(",")[1];
+    //       //document.getElementsByClassName("numMenu")[i-1].innerHTML = x[i].split(",")[1];
+    //   }
+    // }
+    // function addMenuItem(){
+    //     document.getElementById("chapterMenu").innerHTML += "<div class='titleMenu' onclick='window.chapterTiming=this.id;chapterPlay();'></div>";
+    //     window.menuItems += 1;
+    //     //alert(window.menuItems);
+    // }
+    
+    function chapterPlay(){
+        var x = document.getElementsByClassName("flag");
+        var i;
+        for (i = 0; i < x.length; i++) {
+            x[i].id = x[i].name;
+          if(eval(x[i].id) < eval(window.chapterTiming)){
+              x[i].name = x[i].id;
+              x[i].id = document.getElementById('myVid').duration+1;
+          }else{
+              //x[i].id = x[i].name;
+          }
+        }
+        document.getElementById('myVid').currentTime = eval(window.chapterTiming);
+    }
+
+    // function plusSettings(){
+//   if(window.settingsVar == 1){
+//     document.getElementById("settings").style.height = "15em";
+//     window.settingsVar = 2;
+//   }
+//   else{
+//     document.getElementById("settings").style.height = "1.5em";
+//     window.settingsVar = 1;
+//   }
+// }
+// function changeRadius(){
+//   document.getElementById("textDiv").style.borderRadius = window.cornerRad+"px";
+//   document.getElementById("endingDiv").style.borderRadius = window.cornerRad+"px";
+//   document.getElementById("nextBTN").style.borderRadius = window.cornerRad+"px";
+//   document.getElementById("endBTN").style.borderRadius = window.cornerRad+"px";
+//   document.getElementById("restartBTN").style.borderRadius = window.cornerRad+"px";
+//   document.getElementById("myVid").style.borderRadius = window.cornerRad+"px";
+//   changeQuestColors();
+// }
+// function changeColor(){
+//   document.getElementById("textTitle").style.backgroundColor = "#"+window.btnColor;
+//   document.getElementById("endTitle").style.backgroundColor = "#"+window.btnColor;
+//   document.getElementById("nextBTN").style.backgroundColor = "#"+window.btnColor;
+// document.getElementById("menuBtnToggle").style.backgroundColor = "#"+window.btnColor;
+//     document.getElementById("chapterMenu").style.borderBottom = "2px solid #"+window.btnColor;
+//     document.getElementById("chapterMenu").style.borderRight = "2px solid #"+window.btnColor;
+//   document.getElementById("endBTN").style.backgroundColor = "#"+window.btnColor;
+//   document.getElementById("restartBTN").style.backgroundColor = "#"+window.btnColor;
+//   document.getElementById("playHead").style.backgroundColor = "#"+window.btnColor;
+//   document.getElementById("playBtn").style.backgroundColor = "#"+window.btnColor;
+//     document.getElementById("btnForPlay").style.backgroundColor = "#"+window.btnColor;
+//   changeQuestColors();
+// }
+// function btnTextC(){
+//   document.getElementById("textTitle").style.color = "#"+window.btnTColor;
+//   document.getElementById("endTitle").style.color = "#"+window.btnTColor;
+//   document.getElementById("nextBTN").style.color = "#"+window.btnTColor;
+//     document.getElementById("menuBtnToggle").style.color = "#"+window.btnTColor;
+//   document.getElementById("endBTN").style.color = "#"+window.btnTColor;
+//   document.getElementById("restartBTN").style.color = "#"+window.btnTColor;
+//   document.getElementById("playBtn").style.color = "#"+window.btnTColor;
+//     document.getElementById("btnForPlay").style.color = "#"+window.btnTColor;
+//   document.getElementById("playBtn").style.border = "#"+window.btnTColor+" 6px solid";
+//   //document.getElementById("timeLine").style.background= "#"+document.getElementById("btnText").value;
+//   changeQuestColors();
+// }
+// function changeText(){
+//   document.getElementById("textDiv").style.color = "#"+window.textColor;
+//   document.getElementById("endingDiv").style.color = "#"+window.textColor;
+//   changeQuestColors();
+// }
+// function changePanelC(){
+//   var rgb = toRGB(window.panelColor);
+//   var slider = window.panelOpac/100;
+//   document.getElementById("myVid").style.border = "30px solid rgba("+rgb+","+slider+")";
+//   document.getElementById("myVid").style.backgroundColor = "rgba("+rgb+","+slider+")";
+//   document.getElementById("textDiv").style.backgroundColor = "rgba("+rgb+","+slider+")";
+//   document.getElementById("endingDiv").style.backgroundColor = "rgba("+rgb+","+slider+")";
+
+//   changeQuestColors();
+// }
+// function changeShadow(){
+//   var shadeSlide = window.shadow;
+//   var blurSlide = window.shadBlur;
+//   if(shadeSlide == 0){
+//     document.getElementById("textDiv").style.boxShadow = "rgba(0,0,0,0) 0px 0px 0px";
+//     document.getElementById("endingDiv").style.boxShadow = "rgba(0,0,0,0) 0px 0px 0px";
+//   }
+//     if(shadeSlide < 0){
+//     document.getElementById("textDiv").style.boxShadow = "rgba(0,0,0,0.2) "+shadeSlide+"px "+shadeSlide*-1+"px "+blurSlide+"px";
+//     document.getElementById("endingDiv").style.boxShadow = "rgba(0,0,0,0.2) "+shadeSlide+"px "+shadeSlide*-1+"px "+blurSlide+"px";
+//   }
+//   if(shadeSlide > 0){
+//     document.getElementById("textDiv").style.boxShadow = "rgba(0,0,0,0.2) "+shadeSlide+"px "+shadeSlide+"px "+blurSlide+"px";
+//     document.getElementById("endingDiv").style.boxShadow = "rgba(0,0,0,0.2) "+shadeSlide+"px "+shadeSlide+"px "+blurSlide+"px";
+//   }
+//   document.getElementById("myVid").style.boxShadow = document.getElementById("textDiv").style.boxShadow;
+
+//   changeQuestColors();
+
+// }
+
+function whenResize(){
+  document.getElementById("videoOverlay").style.left = document.getElementById("myVid").offsetLeft+30+"px";
+  document.getElementById("videoOverlay").style.top = document.getElementById("myVid").offsetTop+"px";
+  document.getElementById("videoOverlay").style.height = document.getElementById("myVid").offsetHeight+"px";
+    document.getElementById("videoOverlay").style.width = document.getElementById("myVid").offsetWidth-60+"px";
+    document.getElementById("videoSize").style.left = document.getElementById("myVid").offsetLeft+130+"px";
+  document.getElementById("videoSize").style.top = document.getElementById("myVid").offsetTop+"px";
+  document.getElementById("videoSize").style.height = document.getElementById("myVid").offsetHeight+"px";
+    document.getElementById("videoSize").style.width = document.getElementById("myVid").offsetWidth-60+"px";
+  document.getElementById("hotSpotsHere").style.height = document.getElementById("myVid").offsetHeight-60+"px";
+    //document.getElementById("myRange").style.width = document.getElementById("myVid").offsetWidth+"px";
+    //document.getElementById("myRange").style.left = document.getElementById("myVid").offsetLeft+"px";
+    document.getElementById("myRange").max = document.getElementById("myVid").duration;
+  setTimeout(function(){
+    whenResize();
+    }, 100);
+  questResize();
+}
+function dragTime(){
+  document.getElementById("myVid").currentTime = document.getElementById("timeLine").value;
+}
+function videoPlay(){
+     if(document.getElementById("vidWrapper").style.width !== "60%"){
+    if(document.getElementById("btnForPlay").innerText == "II"){
+        document.getElementById("btnForPlay").innerText = "►";
+        document.getElementById("myVid").pause();
+    }else{
+        document.getElementById("btnForPlay").innerText = "II";
+        document.getElementById("myVid").play();
+    }
+     }
+    /*
+    if(document.getElementById("vidWrapper").style.width !== "70%"){
+  if(document.getElementById("videoRealSize").style.opacity == 0){
+    document.getElementById("myVid").pause();
+    document.getElementById("videoRealSize").style.opacity = 1;
+  }else{
+    document.getElementById("myVid").play();
+    document.getElementById("videoRealSize").style.opacity = 0;
+    //keepTime();
+  }
+}
+*/
+}
+function overHover(){
+  document.getElementById("playBtn").style.transform = "scale(0.8)"
+}
+function overOut(){
+  document.getElementById("playBtn").style.transform = "scale(1)"
+}
+function keepTime(){
+  document.getElementById("timeLine").value = document.getElementById("myVid").currentTime;
+  setTimeout(function(){
+    if(window.alreadyPlay == 1){
+      keepTime();
+    }
+  }, 20);
+}
+function addQuest(){
+  window.kindOf = "1";
+  window.heightOf = "1";
+  noHots();
+
+  var checkLast = document.getElementById("myVid").src.substr(document.getElementById("myVid").src.length - 4)
+  if(checkLast == ".mp4"){
+    window.flagNum += 1;
+    whatFrame = document.getElementById("myVid").currentTime;
+    document.getElementById("questsDiv").innerHTML += "<div class='btnWrapper'><div class='dbDiv'>"+whatFrame+"</div><button class='questBtn' onclick='window.questPress="+flagNum+";questFunc();'>"+flagNum+"</button></div>"
+    document.getElementById("flagDiv").innerHTML += "<div class='flag'>"+flagNum+"</div>"
+  if(whatDir !== "rtl"){
+    document.getElementById("realQuestDiv").innerHTML += "<div class='realQuest' style='left:0;'><div class='innerQuest'><button class='moreQuest' onclick='window.questNum="+flagNum+";questKind();'>? 1:1</button><div class='titleQuest'>Question Number "+flagNum+"</div><div class='questQuest' >Lorem Ipsum</div><br/></br/></br/><button class='questNext' >Next</button></div></div>"
+  }else{
+    document.getElementById("realQuestDiv").innerHTML += "<div class='realQuest' style='left:0;'><div class='innerQuest'><button class='moreQuest' onclick='window.questNum="+flagNum+";questKind();'>? 1:1</button><div class='titleQuest'>Question Number "+flagNum+"</div><div class='questQuest' >Lorem Ipsum</div><br/></br/></br/><button class='questNext' >Next</button></div></div>"
+  }
+    var checkTime = document.getElementById("timeLine").value;
+    var timeMax = document.getElementById("timeLine").max;
+    var checkPos = document.getElementById("flagDiv").offsetWidth;
+    var percPos = (timeMax/100);
+    var percPos = checkTime/percPos;
+    document.getElementsByClassName("flag")[flagNum-1].style.left = percPos+"%";
+    window.questPress = flagNum;
+    // questFunc();
+    // changeQuestColors();
+    if(whatDir !== "rtl"){
+      makeLTR();
+    }else{
+      makeRTL();
+    }
+    // questFunc();
+  }
+}
+function removeQuest(){
+  if(document.getElementById("myVid").src.substr(document.getElementById("myVid").src.length - 3) == "mp4"){
+  document.getElementsByClassName("questBtn")[window.questPress-1].style.display="none";
+  document.getElementsByClassName("flag")[window.questPress-1].style.display="none";
+  document.getElementsByClassName("realQuest")[window.questPress-1].style.display="none";
+  document.getElementById("frameDiv").style.display = "none";
+}
+}
+function questFunc(){
+  //alert(window.questPress);
+  document.getElementById("frameDiv").innerText = document.getElementsByClassName("dbDiv")[window.questPress-1].innerText;
+  document.getElementById("frameDiv").style.display = "block";
+  // var x = document.getElementsByClassName("realQuest");
+  // var i;
+  // for (i = 0; i < x.length; i++) {
+  //   if(whatDir !== "rtl"){
+  //     x[i].style.left = "-150%";
+  //   }else{
+  //     //x[i].style.left = "150%";
+  //     x[i].style.right = "-450%";
+  //   }
+  // }
+  var x = document.getElementsByClassName("flag");
+  var i;
+  for (i = 0; i < x.length; i++) {
+    x[i].style.transform = "scale(1)";
+  }
+  var x = document.getElementsByClassName("questBtn");
+  var i;
+  for (i = 0; i < x.length; i++) {
+    x[i].style.backgroundColor = "#f0f0f0";
+  }
+  document.getElementsByClassName("flag")[window.questPress-1].style.transform = "scale(1.5)";
+  document.getElementsByClassName("questBtn")[window.questPress-1].style.backgroundColor = "#a5a5a5";
+  setTimeout(function(){
+    //window.kindOf = document.getElementsByClassName("moreQuest")[window.questNum-1].innerHTML.slice(2,3);
+    //window.heightOf = document.getElementsByClassName("moreQuest")[window.questNum-1].innerHTML.slice(4,5);
+    //alert(window.heightOf);
+    if(whatDir !== "rtl"){
+      document.getElementsByClassName("realQuest")[window.questPress-1].style.left = "5%";
+        //document.getElementById("myVid").removeAttribute("controls");
+        document.getElementById("vidWrapper").style.left = "30%";
+        document.getElementById("vidWrapper").style.width = "60%";
+        document.getElementById("btnForPlay").innerText = "►";
+    }else{
+      document.getElementsByClassName("realQuest")[window.questPress-1].style.left = "0";
+    }
+}, 200);
+if(document.getElementsByClassName("moreQuest")[window.questPress-1].innerHTML.slice(2,3) == "5" && document.getElementsByClassName("changeQuest")[tempCh-1].style.height !== "80%"){
+  document.getElementById("hotSpotsHere").style.display = "block";
+  hideHots();
+  document.getElementById("hotDrag_"+window.questPress).style.display = "block";
+  console.log("BLA")
+}else{
+  document.getElementById("hotSpotsHere").style.display = "none";
+}
+}
+function hideHots(){
+  //console.log("HIDE")
+  //window.alreadyRight = 0;
+  var x = document.getElementsByClassName("hotSpotDiv");
+  var i;
+  for (i = 0; i < x.length; i++) {
+    x[i].style.display = "none";
+  }
+}
+function questResize(){
+ 
+    var whatTop = document.getElementById("myVid").offsetTop;
+    var whatSize = document.getElementById("myVid").offsetHeight;
+    document.getElementById("realQuestDiv").style.top = whatTop+"px";
+    document.getElementById("realQuestDiv").style.height = (whatSize-60)+"px";
+  
+}
+
+// function questKind(){
+
+//   //alert(document.getElementsByClassName("moreQuest")[window.questNum-1].innerHTML.slice(2,3));
+//   //alert(document.getElementsByClassName("moreQuest")[window.questNum-1].innerHTML.slice(4,5));
+//   window.originalKind = document.getElementsByClassName("moreQuest")[window.questNum-1].innerHTML.slice(2,3);
+//   window.kindOf = document.getElementsByClassName("moreQuest")[window.questNum-1].innerHTML.slice(2,3);
+//   window.heightOf = document.getElementsByClassName("moreQuest")[window.questNum-1].innerHTML.slice(4,5);
+//   if(window.kindOf == "1"){
+//     document.getElementById("1").checked = "true";
+//   }
+//   if(window.kindOf == "2"){
+//     document.getElementById("2").checked = "true";
+//   }
+//   if(window.kindOf == "3"){
+//     document.getElementById("3").checked = "true";
+//   }
+//   if(window.kindOf == "4"){
+//     document.getElementById("4").checked = "true";
+//   }
+//   if(window.kindOf == "5"){
+//     document.getElementById("5").checked = "true";
+//   }
+//   if(window.heightOf == "1"){
+//     document.getElementById("6").checked = "true";
+//   }
+//   if(window.heightOf == "2"){
+//     document.getElementById("7").checked = "true";
+//   }
+//   document.getElementById("kindDiv").style.opacity = 1;
+//   document.getElementById("kindDiv").style.pointerEvents = "all";
+// }
+
+// function closeKind(){
+//   document.getElementById("kindDiv").style.opacity = 0;
+//   document.getElementById("kindDiv").style.pointerEvents = "none";
+// }
+// function acceptKind(){
+//   document.getElementsByClassName("moreQuest")[window.questNum-1].innerHTML = "? "+window.kindOf+","+window.heightOf;
+//   if(window.heightOf == 1){
+//     document.getElementsByClassName("innerQuest")[window.questNum-1].style.height = "100%";
+//   }else{
+//     document.getElementsByClassName("innerQuest")[window.questNum-1].style.height = "50%";
+//   }
+//   if(window.kindOf == window.originalKind){
+//   }else{
+//     //alert(window.questNum+" : "+flagNum);
+//     if(window.kindOf == "1"){
+//       document.getElementsByClassName("innerQuest")[window.questNum-1].innerHTML = "<button class='moreQuest' onclick='window.questNum="+window.questNum+";questKind();'>? "+window.kindOf+":"+window.heightOf+"</button><div class='titleQuest'>Question Number "+window.questNum+"</div><div class='questQuest' >Lorem Ipsum</div><br/></br/></br/><button class='questNext' >Next</button>"
+//     }
+//     if(window.kindOf == "2"){
+//       /*document.getElementsByClassName("innerQuest")[window.questNum-1].innerHTML = "<button class='questTab' onclick='tabFunc();'>^</button><button class='moreQuest' onclick='window.questNum="+window.questNum+";questKind();'>? "+window.kindOf+":"+window.heightOf+"</button><div class='titleQuest'>Question Number "+window.questNum+"</div><div class='questQuest' >Select your answer:<br /><form><input type='radio' name='quest_"+window.questNum+"' value='"+window.questNum+"_1' id='"+window.questNum+"_1'checked> Choice Number 1<br><input type='radio' name='questType' value='"+window.questNum+"_2' id='"+window.questNum+"_2'> Choice Number 2<br><input type='radio' name='quest_"+window.questNum+"' value='"+window.questNum+"_3' id='"+window.questNum+"_3'> Choice Number 3<br><input type='radio' name='questType' value='"+window.questNum+"_4' id='"+window.questNum+"_4'> Choice Number 4<br /><input type='radio' name='quest_"+window.questNum+"' value='"+window.questNum+"_5' id='"+window.questNum+"_5'> Choice Number 5<br><input type='radio' name='questType' value='"+window.questNum+"_6' id='"+window.questNum+"_6'> Choice Number 6</form></div><div class='changeQuest' >Feedback goes here.</div>";
+//       */
+//       document.getElementsByClassName("innerQuest")[window.questNum-1].innerHTML = "<button class='questTab' onclick='tabFunc();'>^</button><button class='moreQuest' onclick='window.questNum="+window.questNum+";questKind();'>? "+window.kindOf+":"+window.heightOf+"</button><div class='titleQuest'>Question Number "+window.questNum+"</div><div class='questQuest'><table><tr><td id='td_"+window.questNum+"_0'><input type=radio name='questCheck_"+window.questNum+"' onclick='numm=0;radioNum();' checked></td><td><span >Answer Number 1</span></td></tr><tr><td id='td_"+window.questNum+"_1'><input type=radio name='questCheck_"+window.questNum+"' onclick='numm=1;radioNum();'></td><td><span >Answer Number 2</span></td></tr><tr><td id='td_"+window.questNum+"_2'><input type=radio name='questCheck_"+window.questNum+"' onclick='numm=2;radioNum();'></td><td><span >Answer Number 3</span></td></tr><tr><td id='td_"+window.questNum+"_3'><input type=radio name='questCheck_"+window.questNum+"' onclick='numm=3;radioNum();'></td><td><span >Answer Number 4</span></td></tr><tr><td id='td_"+window.questNum+"_4'><input type=radio name='questCheck_"+window.questNum+"' onclick='numm=4;radioNum();'></td><td><span >Answer Number 5</span></td></tr><tr><td id='td_"+window.questNum+"_5'><input type=radio name='questCheck_"+window.questNum+"' onclick='numm=5;radioNum();'></td><td><span >Answer Number 6</span></td></tr></table></div><br/></br/></br/><button class='questNext' >Next</button><div class='changeQuest' >Feedback goes here.</div>"
+
+//     }
+//     if(window.kindOf == "3"){
+//       /*document.getElementsByClassName("innerQuest")[window.questNum-1].innerHTML = "<button class='questTab' onclick='tabFunc();'>^</button><button class='moreQuest' onclick='window.questNum="+window.questNum+";questKind();'>? "+window.kindOf+":"+window.heightOf+"</button><div class='titleQuest'>Question Number "+window.questNum+"</div><div class='questQuest' >Select your answer:<br /><form><input type='checkbox' name='quest_"+window.questNum+"' value='"+window.questNum+"_1' id='"+window.questNum+"_1'checked> Choice Number 1<br><input type='checkbox' name='questType' value='"+window.questNum+"_2' id='"+window.questNum+"_2'> Choice Number 2<br><input type='checkbox' name='quest_"+window.questNum+"' value='"+window.questNum+"_3' id='"+window.questNum+"_3'> Choice Number 3<br><input type='checkbox' name='questType' value='"+window.questNum+"_4' id='"+window.questNum+"_4'> Choice Number 4<br /><input type='checkbox' name='quest_"+window.questNum+"' value='"+window.questNum+"_5' id='"+window.questNum+"_5'> Choice Number 5<br><input type='checkbox' name='questType' value='"+window.questNum+"_6' id='"+window.questNum+"_6'> Choice Number 6</form></div><div class='changeQuest' >Feedback goes here.</div>";*/
+
+//       document.getElementsByClassName("innerQuest")[window.questNum-1].innerHTML = "<button class='questTab' onclick='tabFunc();'>^</button><button class='moreQuest' onclick='window.questNum="+window.questNum+";questKind();'>? "+window.kindOf+":"+window.heightOf+"</button><div class='titleQuest'>Question Number "+window.questNum+"</div><div class='questQuest'><table><tr><td id='td_"+window.questNum+"_0'><input type=checkbox name='questCheck_"+window.questNum+"' onclick='numm=0;radioNum();' checked></td><td><span >Choice Number 1</span></td></tr><tr><td id='td_"+window.questNum+"_1'><input type=checkbox name='questCheck_"+window.questNum+"' onclick='numm=1;radioNum();'></td><td><span >Choice Number 2</span></td></tr><tr><td id='td_"+window.questNum+"_2'><input type=checkbox name='questCheck_"+window.questNum+"' onclick='numm=2;radioNum();'></td><td><span >Choice Number 3</span></td></tr><tr><td id='td_"+window.questNum+"_3'><input type=checkbox name='questCheck_"+window.questNum+"' onclick='numm=3;radioNum();'></td><td><span >Choice Number 4</span></td></tr><tr><td id='td_"+window.questNum+"_4'><input type=checkbox name='questCheck_"+window.questNum+"' onclick='numm=4;radioNum();'></td><td><span >Choice Number 5</span></td></tr><tr><td id='td_"+window.questNum+"_5'><input type=checkbox name='questCheck_"+window.questNum+"' onclick='numm=5;radioNum();'></td><td><span >Choice Number 6</span></td></tr></table></div><br/></br/></br/><button class='questNext' >Next</button><div class='changeQuest' >Feedback goes here.</div>"
+//     }
+//     if(window.kindOf == "4"){
+//       document.getElementsByClassName("innerQuest")[window.questNum-1].innerHTML = "<button class='questTab' onclick='tabFunc();'>^</button><button class='moreQuest' onclick='window.questNum="+window.questNum+";questKind();'>? "+window.kindOf+":"+window.heightOf+"</button><div class='titleQuest'>Question Number "+window.questNum+"</div><div class='questQuest' >Enter your answer:<br /></div><br/></br/><div class='textInputDiv' id='quest_"+window.questNum+"' >Answer</div><br/></br/></br/><button class='questNext' >Next</button><div class='changeQuest' >Feedback goes here.</div>"
+//     }
+//     if(window.kindOf == "5"){
+//       document.getElementsByClassName("innerQuest")[window.questNum-1].innerHTML = "<button class='questTab' onclick='tabFunc();'>^</button><button class='moreQuest' onclick='window.questNum="+window.questNum+";questKind();'>? "+window.kindOf+":"+window.heightOf+"</button><div class='titleQuest'>Question Number "+window.questNum+"</div><div class='questQuest' >Click on the right place</div><br/></br/></br/><button class='questNext' >Next</button><div class='changeQuest' >Feedback goes here.</div>"
+//     }
+//   }
+//   closeKind();
+// }
+
+// function changeQuestColors(){
+//   var x = document.getElementsByClassName("innerQuest");
+//   var i;
+//   for (i = 0; i < x.length; i++) {
+//     x[i].style.borderRadius = window.cornerRad+"px";
+//     x[i].style.backgroundColor = document.getElementById("textDiv").style.backgroundColor;
+//     x[i].style.boxShadow = document.getElementById("textDiv").style.boxShadow;
+//     x[i].style.color = document.getElementById("textDiv").style.color;
+//   }
+//   var x = document.getElementsByClassName("changeQuest");
+//   var i;
+//   for (i = 0; i < x.length; i++) {
+//     x[i].style.height = 0;
+//     x[i].style.color = document.getElementById("textDiv").style.color;
+//     x[i].style.backgroundColor = document.getElementById("textDiv").style.backgroundColor;
+//   }
+//   var x = document.getElementsByClassName("changeQuestPlus");
+//   var i;
+//   for (i = 0; i < x.length; i++) {
+//     x[i].style.color = document.getElementById("textDiv").style.color;
+//     x[i].style.backgroundColor = document.getElementById("textDiv").style.backgroundColor;
+//   }
+//   var x = document.getElementsByClassName("inputNumDiv");
+//   var i;
+//   for (i = 0; i < x.length; i++) {
+//     x[i].style.backgroundColor = document.getElementById("textDiv").style.backgroundColor;
+//   }
+//   var x = document.getElementsByClassName("fillMe");
+//   var i;
+//   for (i = 0; i < x.length; i++) {
+//     x[i].style.backgroundColor = "#"+window.rColor;
+//   }
+//   var x = document.getElementsByClassName("inputNum");
+//   var i;
+//   for (i = 0; i < x.length; i++) {
+//     x[i].style.color = document.getElementById("textDiv").style.color;
+//   }
+//   var x = document.getElementsByClassName("questTime");
+//   var i;
+//   for (i = 0; i < x.length; i++) {
+//     // x[i].style.backgroundColor = document.getElementById("textDiv").style.backgroundColor;
+//   }
+
+//   var x = document.getElementsByClassName("titleQuest");
+//   var i;
+//   for (i = 0; i < x.length; i++) {
+//     x[i].style.backgroundColor = document.getElementById("nextBTN").style.backgroundColor;
+//     cornerTemp = window.cornerRad+"px";
+//     x[i].style.borderRadius = cornerTemp+" "+cornerTemp+" 0 0";
+//     x[i].style.color = document.getElementById("nextBTN").style.color;
+//       x[i].style.zIndex = 9;
+//   }
+// }
+
+function saveFrame(){
+  document.getElementsByClassName("dbDiv")[window.questPress-1].innerText = document.getElementById("frameDiv").value;
+  //document.getElementsByClassName("flag")[window.questPress-1].style.left = document.getElementById("frameDiv").value+"%";
+  var checkTime = document.getElementById("frameDiv").value;
+  var timeMax = document.getElementById("timeLine").max;
+  document.getElementsByClassName("flag")[window.questPress-1].offsetWidth;
+  var percPos = (timeMax/100);
+  var percPos = checkTime/percPos;
+  document.getElementsByClassName("flag")[window.questPress-1].style.left = percPos+"%";
+  //alert(document.getElementsByClassName("flag")[window.questPress-1].style.left);
+}
+function checkEnter(){
+  if(event.keyCode == 13 && document.getElementById("frameDiv").style.display == "block"){
+    saveFrame();
+  }
+}
+function moreScore(){
+  if(passingScorm == undefined){
+    passingScorm = 100;
+  }else{}
+  window.realScore += window.questPercent;
+      if(window.realScore > passingScorm){
+          if(api.version !== null){
+            //api.status("completed");
+            api.success("passed");
+            //api.score(window.realScore);
+          }
+      }
+  if(window.realScore > 98){
+    window.realScore = 100;
+  }
+      if(api.version !== null){
+      api.score(window.realScore);
+    }
+}
+function tabFunc(){
+  //alert(window.questPress)
+  if(document.getElementsByClassName("moreQuest")[tempCh-1].innerHTML.slice(2,3) == "1"){
+    window.questPress = "2001";
+  }
+  if(document.getElementsByClassName("moreQuest")[tempCh-1].innerHTML.slice(2,3) == "5"){
+    document.getElementById("hotDrag_"+tempCh).style.opacity = 0.6;
+    //document.getElementById("hotDrag_"+tempCh).style.backgroundColor = "#"+window.wColor;
+    document.getElementById("hotDrag_"+tempCh).style.border = "6px solid #"+window.wColor;
+    setTimeout(function(){
+      makeBtnPress();
+    }, 200);
+  }else{
+  }
+  if(window.questPress == "a"){
+    if(document.getElementsByClassName("changeQuest")[tempCh-1].style.height == "80%"){
+      window.questPress = 1001;
+      window.btnPress = 1001;
+    }else{
+    //alert("no time !");
+    document.getElementsByClassName("titleQuest")[tempCh-1].style.backgroundColor = "#"+window.wColor;
+    document.getElementsByClassName("titleQuest")[tempCh-1].innerHTML = window.tText;
+    document.getElementsByClassName("changeQuest")[tempCh-1].style.height = "80%";
+    document.getElementsByClassName("changeQuest")[tempCh-1].style.paddingTop = "0.35em";
+    document.getElementsByClassName("questTime")[tempCh-1].style.display = "none";
+    clearTimeout(myTimer);
+    //clearTimeout(questTimer);
+    window.questPress = 2001;
+    window.btnPress = 2001;
+    window.ansRight = "";
+    setTimeout(function(){
+      makeBtnPress();
+    }, 200);
+  }
+  }else{
+  if(window.questPress > 1000){
+    if(document.getElementsByClassName("moreQuest")[tempCh-1].innerHTML.slice(2,3) == "1"){
+      //moreScore();
+    }
+    //console.log("A");
+    window.stopAlert = 0;
+    document.getElementById("myVid").play();
+      //document.getElementById("myVid").setAttribute("controls","controls");
+          document.getElementById("vidWrapper").style.left = "0";
+            document.getElementById("vidWrapper").style.width = "100%";
+      document.getElementById("btnForPlay").innerText = "II";
+    document.getElementById("playBtn").style.display = "block";
+    setTimeout(function(){
+      window.questPress = 1;
+      window.btnPress = 1;
+    // var x = document.getElementsByClassName("realQuest");
+    // var i;
+    // for (i = 0; i < x.length; i++) {
+    //   if(whatDir !== "rtl"){
+    //     x[i].style.left = "-150%";
+    //   }else{
+    //     //x[i].style.left = "150%";
+    //     x[i].style.right = "-450%";
+    //   }
+    // }
+  }, 200);
+  }else{
+  if(document.getElementsByClassName("changeQuest")[window.questPress-1].style.height == "80%"){
+    /*
+    document.getElementsByClassName("changeQuest")[window.questPress-1].style.height = "0";
+    document.getElementsByClassName("changeQuest")[window.questPress-1].style.paddingTop = "0";
+    document.getElementsByClassName("questTab")[window.questPress-1].style.transform = "rotate(0deg)";
+    */
+    window.stopAlert = 0;
+    document.getElementById("myVid").play();
+      setTimeout(function(){
+      //document.getElementById("myVid").setAttribute("controls","controls");
+          document.getElementById("vidWrapper").style.left = "0";
+            document.getElementById("vidWrapper").style.width = "100%";
+          document.getElementById("btnForPlay").innerText = "II";
+          }, 200);
+    document.getElementById("playBtn").style.display = "block";
+    setTimeout(function(){
+    // var x = document.getElementsByClassName("realQuest");
+    // var i;
+    // for (i = 0; i < x.length; i++) {
+    //   if(whatDir !== "rtl"){
+    //     x[i].style.left = "-150%";
+    //     //x[i].style.right = "400%";
+    //   }else{
+    //     //x[i].style.left = "150%";
+    //     x[i].style.right = "-450%";
+    //   }
+    // }
+  }, 200);
+  }else{
+    if(document.getElementsByClassName("questTime")[tempCh-1].style.display !== "none"){
+    clearTimeout(myTimer);
+    //clearTimeout(questTimer);
+    }
+    document.getElementsByClassName("questTime")[tempCh-1].style.display = "none";
+    if(window.myAns == window.ansRight && document.getElementsByClassName("moreQuest")[tempCh-1].innerHTML.slice(2,3) !== "6" && document.getElementsByClassName("moreQuest")[tempCh-1].innerHTML.slice(2,3) !== "7"){
+      //alert("RIGHT");
+      moreScore();
+      document.getElementsByClassName("titleQuest")[window.questPress-1].style.backgroundColor = "#"+window.rColor;
+      document.getElementsByClassName("titleQuest")[window.questPress-1].innerHTML = window.rText;
+      checkRight = document.getElementsByClassName("changeQuestPlus")[window.questPress-1].innerHTML
+      if(checkRight == "Right Feedback goes here." || checkRight == "" || checkRight == " "){}else{
+      document.getElementsByClassName("changeQuestPlus")[window.questPress-1].style.height = "80%"
+      document.getElementsByClassName("changeQuestPlus")[window.questPress-1].style.paddingTop = "0.35em";
+          document.getElementsByClassName("changeQuestPlus")[window.questPress-1].style.opacity = "1";
+    }
+    }else{
+      if(document.getElementsByClassName("moreQuest")[tempCh-1].innerHTML.slice(2,3) !== "6" && document.getElementsByClassName("moreQuest")[tempCh-1].innerHTML.slice(2,3) !== "7"){
+      document.getElementsByClassName("titleQuest")[window.questPress-1].style.backgroundColor = "#"+window.wColor;
+      document.getElementsByClassName("titleQuest")[window.questPress-1].innerHTML = window.wText;
+    }
+    }
+    window.ansRight = "";
+    window.myAns = "";
+    if(document.getElementsByClassName("moreQuest")[tempCh-1].innerHTML.slice(2,3) !== "6" && document.getElementsByClassName("moreQuest")[tempCh-1].innerHTML.slice(2,3) !== "7"){
+    document.getElementsByClassName("changeQuest")[window.questPress-1].style.height = "80%"
+    document.getElementsByClassName("changeQuest")[window.questPress-1].style.paddingTop = "0.35em";
+  }
+    //document.getElementsByClassName("questTab")[window.questPress-1].style.transform = "rotate(180deg)";
+  }
+}
+}
+}
+function makeBtnPress(){
+  document.getElementsByClassName("questNext")[tempCh-1].style.opacity = 1;
+  document.getElementsByClassName("questNext")[tempCh-1].style.pointerEvents = "all";
+}
+// function textClick(){
+//   window.ansRight = document.getElementById(window.whatText).innerText;
+//   //alert(window.ansRight);
+//   document.getElementById(window.whatText).style.color = "#000000";
+//   document.getElementById(window.whatText).innerText = "";
+//   makeBtnPress();
+// }
+// function textCheck(){
+//   window.myAns = document.getElementById(window.whatText).innerText;
+// }
+// function checkboxNum(){
+//   //window.myAns = "td_"+tempCh+"_"+numm;
+//   window.myAns = "";
+//   if(document.getElementsByName("questCheck_"+tempCh)[0].checked == true){
+//     window.myAns += "td_"+tempCh+"_0";
+//   }
+//   if(document.getElementsByName("questCheck_"+tempCh)[1].checked == true){
+//     window.myAns += "td_"+tempCh+"_1";
+//   }
+//   if(document.getElementsByName("questCheck_"+tempCh)[2].checked == true){
+//     window.myAns += "td_"+tempCh+"_2";
+//   }
+//   if(document.getElementsByName("questCheck_"+tempCh)[3].checked == true){
+//     window.myAns += "td_"+tempCh+"_3";
+//   }
+//   if(document.getElementsByName("questCheck_"+tempCh)[4].checked == true){
+//     window.myAns += "td_"+tempCh+"_4";
+//   }
+//   if(document.getElementsByName("questCheck_"+tempCh)[5].checked == true){
+//     window.myAns += "td_"+tempCh+"_5";
+//   }
+//   makeBtnPress();
+// }
+
+// function radioNum(){
+//   window.myAns = "td_"+tempCh+"_"+numm;
+//   makeBtnPress();
+//   /*
+//   justTemp = document.getElementById("td_"+window.questNum+"_"+numm).innerHTML;
+//   if(justTemp.substr(justTemp.length - 8) == "checked>"){
+//   document.getElementById("td_"+window.questNum+"_"+numm).innerHTML = document.getElementById("td_"+window.questNum+"_"+numm).innerHTML.slice(0,-8)+">";
+// }else{
+//   if(justTemp.substr(justTemp.length - 11) == 'checked="">'){
+//     document.getElementById("td_"+window.questNum+"_"+numm).innerHTML = document.getElementById("td_"+window.questNum+"_"+numm).innerHTML.slice(0,-11)+">";
+//   }else{
+//   document.getElementById("td_"+window.questNum+"_"+numm).innerHTML = document.getElementById("td_"+window.questNum+"_"+numm).innerHTML.slice(0,-1)+" checked>";
+//   }
+// }
+// */
+// }
+   
+function loadJS(){
+        window.ansRight = "";
+        window.questMoreNum = 0;
+        // document.getElementById("innerText").innerHTML = firstScreen;
+        // document.getElementById("nextBTN").innerHTML = firstBtn;
+        // document.getElementById("endTitle").innerHTML = lastTitle;
+        // document.getElementById("textTitle").innerHTML = firstTitle;
+        // document.getElementById("innerEnding").innerHTML = lastScreen;
+        // document.getElementById("scoreEnd").innerHTML = lastScore;
+        // document.getElementById("endBTN").innerHTML = lastBtn;
+        // document.getElementById("restartBTN").innerHTML = lastyBtn;
+        document.getElementById("myVid").src = "video.mp4";
+        document.getElementById("myVid").style.opacity = 1;
+        document.getElementById("vidWrapper").style.width = "100%";
+        document.getElementById("videoOverlay").style.opacity = 1;
+        // window.cornerRad = cornerRad;
+        // window.panelColor = panelColor;
+        // window.panelOpac = panelOpac;
+        // window.textColor = textColor;
+        // window.btnColor = btnColor;
+        // window.btnTColor = btnTColor;
+        // window.jsMenu = menuVar;
+        // window.shadow = shadow;
+        // window.shadBlur = shadBlur;
+        // window.tText = tText;
+        // window.rText = rText;
+        // window.wText = wText;
+        // window.wColor = wColor;
+        // window.rColor = rColor;
+        document.title = projName;
+        qtRes = questUs;
+        var qtRes = qtRes.replace(/96%/g, '0');
+        var qtRes = qtRes.replace(/ondblclick=/g, 'onclick=');
+        var qtRes = qtRes.replace(/class="questNext"/g, 'class="questNext" onclick="window.btnPress=this.id;markNext();"');
+        var qtRes = qtRes.replace(/id="moreImage_/g, "src=\"moreImage_");
+        var qtRes = qtRes.replace(/contenteditable="true"/g, "");
+        var qtRes = qtRes.replace(/class="textInputDiv"/g, "class='textInputDiv' contenteditable='true' onclick='window.whatText=this.id;textClick();'");
+        var qtRes = qtRes.replace(/type="radio"><\/td><td><span ><br><\/span>/g, 'type="radio" style="display:none;"><\/td><td>');
+        var qtRes = qtRes.replace(/type="radio"><\/td><td><span ><\/span>/g, 'type="radio" style="display:none;"><\/td><td>');
+        var qtRes = qtRes.replace(/type="checkbox"><\/td><td><span ><br><\/span>/g, 'type="checkbox" style="display:none;"><\/td><td>');
+        var qtRes = qtRes.replace(/type="checkbox"><\/td><td><span ><\/span>/g, 'type="checkbox" style="display:none;"><\/td><td>');
+        document.getElementById("realQuestDiv").innerHTML = qtRes;
+        document.getElementById("flagDiv").innerHTML = flagUs;
+        // window.bgExt = bgExtUs;
+        window.hotSpotUs = hotSpotUs;
+        window.hotSpotUs = window.hotSpotUs.replace(/contenteditable="true"/g, "");
+        document.getElementById("hotSpotsHere").innerHTML = window.hotSpotUs;
+        // document.getElementById("wrapper").style.backgroundImage = "url('bg"+window.bgExt+"')";
+        // changeRadius();
+        // changePanelC();
+        // changeText();
+        // changeColor();
+        // btnTextC();
+        // changeShadow();
+        checkMovie();
+        // loadMenu();
+setTimeout(function(){
+        var x = document.getElementsByClassName("flag");
+        var i;
+        for (i = 0; i < x.length; i++) {
+            x[i].name = x[i].id;
+        }
+        if(whatDir == "ltr"){
+            makeLTR();
+        }else{
+            makeRTL();
+        }
+      }, 100);
+        setTimeout(function(){
+          // if(document.getElementById("chapterMenu").innerHTML == ""){
+          //     document.getElementById("chapterMenu").style.display = "none";
+          //     document.getElementById("menuBtnToggle").style.display = "none";
+          // }
+          // var x = document.getElementsByClassName("realQuest");
+          // var i;
+          // for (i = 0; i < x.length; i++) {
+          //   if(whatDir !== "rtl"){
+          //     x[i].style.left = "-150%";
+          //   }else{
+          //     //x[i].style.left = "150%";
+          //     x[i].style.right = "-450%";
+          //   }
+          // }
+
+          // var x = document.getElementsByClassName("realMarkD");
+          // var i;
+          // for (i = 0; i < x.length; i++) {
+          //   if(whatDir !== "rtl"){
+          //     x[i].style.left = "-150%";
+          //   }else{
+          //     //x[i].style.left = "150%";
+          //     x[i].style.right = "-450%";
+          //   }
+          // }
+
+          var x = document.getElementsByClassName("questNext");
+          var i;
+          for (i = 0; i < x.length; i++) {
+              x[i].style.borderRadius = window.cornerRad+"px";
+              x[i].style.backgroundColor = "#"+window.btnColor;
+              x[i].style.color ="#"+ window.btnTColor;
+          }
+          var x = document.getElementsByClassName("moreQuest");
+          var i;
+          for (i = 0; i < x.length; i++) {
+            if(x[i].innerHTML.slice(2,3) == 6 || x[i].innerHTML.slice(2,3) == "6" || x[i].innerHTML.slice(2,3) == 7 || x[i].innerHTML.slice(2,3) == "7"){
+              window.questMoreNum += 1;
+            }
+          }
+          // document.getElementById("textDiv").style.opacity = 1;
+          // window.questHowMany = document.getElementsByClassName("noDiv").length+(document.getElementsByClassName("starSpan").length-window.questMoreNum);
+          // window.questPercent = 100/(window.questHowMany);
+
+          var x = document.getElementsByName("noStyle");
+          var i;
+          for (i = 0; i < x.length; i++) {
+            if(x[i].innerHTML == "" || x[i].innerHTML == "<br>" || x[i].innerHTML == "<br/>" || x[i].innerHTML == " " || x[i].innerHTML == "  " || x[i].innerHTML == "<br><br>" || x[i].innerHTML == "<br/><br/>"){
+              x[i].parentNode.parentNode.style.display = "none";
+            }
+          }
+        }, 300);
+    }
+    function markNext(){
+      document.getElementsByClassName("realQuest")[window.markOut].style.display = "none";
+      document.getElementById("vidWrapper").style.height = "100%";
+      document.getElementById("vidWrapper").style.width = "100%";
+      // document.getElementsByClassName("questNextM")[window.markOut].style.opacity = "0.5";
+      
+      // if(whatDir !== "rtl"){
+      //       document.getElementsByClassName("realMarkD")[window.markOut].style.left = "-150%";
+      //     }else{
+      //         document.getElementsByClassName("realMarkD")[window.markOut].style.right = "-450%";
+      //     }
+      document.getElementById("btnForPlay").innerText = "II";
+
+          document.getElementById("myVid").play();
+        
+
+        //document.getElementsByClassName("realMarkD")[window.markOut].style.opacity = 0;
+    }
+    function hotWrong(){
+      if(window.alreadyRight == 1){}else{
+        clearTimeout(myTimer);
+        //clearTimeout(questTimer);
+        window.alreadyRight = 1;
+        document.getElementsByClassName("questTime")[tempCh-1].style.display = "none";
+        window.questPress = tempCh;
+        document.getElementsByClassName("titleQuest")[window.questPress-1].style.backgroundColor = "#"+window.wColor;
+        document.getElementsByClassName("titleQuest")[window.questPress-1].innerHTML = window.wText;
+        window.ansRight = "";
+        window.myAns = "";
+        document.getElementsByClassName("changeQuest")[window.questPress-1].style.height = "80%"
+        document.getElementsByClassName("changeQuest")[window.questPress-1].style.paddingTop = "0.35em";
+        //document.getElementById("hotDrag_"+tempCh).style.backgroundColor = "#"+window.wColor;
+        document.getElementById("hotDrag_"+tempCh).style.border = "6px solid #"+window.wColor;
+        document.getElementById("hotDrag_"+tempCh).style.opacity = 0.6;
+        setTimeout(function(){
+          makeBtnPress();
+        }, 200);
+      }
+    }
+    function hotSize(){
+      if(window.alreadyRight == 1){}else{
+      clearTimeout(myTimer);
+      //clearTimeout(questTimer);
+      document.getElementsByClassName("questTime")[tempCh-1].style.display = "none";
+      window.questPress = tempCh;
+      window.alreadyRight = 1;
+      document.getElementsByClassName("titleQuest")[window.questPress-1].style.backgroundColor = "#"+window.rColor;
+      moreScore();
+      document.getElementsByClassName("titleQuest")[window.questPress-1].innerHTML = window.rText;
+      checkRight = document.getElementsByClassName("changeQuestPlus")[window.questPress-1].innerHTML
+      if(checkRight == "Right Feedback goes here." || checkRight == "" || checkRight == " "){}else{
+      document.getElementsByClassName("changeQuestPlus")[window.questPress-1].style.height = "80%"
+      document.getElementsByClassName("changeQuestPlus")[window.questPress-1].style.paddingTop = "0.35em";
+          document.getElementsByClassName("changeQuestPlus")[window.questPress-1].style.opacity = "1";
+    }
+    window.ansRight = "";
+    window.myAns = "";
+    document.getElementsByClassName("changeQuest")[window.questPress-1].style.height = "80%"
+    document.getElementsByClassName("changeQuest")[window.questPress-1].style.paddingTop = "0.35em";
+    //document.getElementById("hotDrag_"+tempCh).style.backgroundColor = "#"+window.rColor;
+    document.getElementById("hotDrag_"+tempCh).style.border = "6px solid #"+window.rColor;
+    document.getElementById("hotDrag_"+tempCh).style.opacity = 0.6;
+    setTimeout(function(){
+      makeBtnPress();
+    }, 200);
+  }
+    }
+    function dragStart(){}
+    function dragStop(){}
+    function questNextF(){
+      document.getElementById("hotSpotsHere").style.pointerEvents = "none";
+      if(document.getElementsByClassName("changeQuest")[tempCh-1].style.height == "80%"){
+        hideHots();
+        document.getElementById("hotSpotsHere").style.display = "none";
+      }
+      //alert(window.btnPress);
+      //document.getElementById(window.btnPress).parentNode
+      if(document.getElementsByClassName("moreQuest")[tempCh-1].innerText.slice(0,-2) == "? 6" || document.getElementsByClassName("moreQuest")[tempCh-1].innerText.slice(0,-2) == "? 7"){
+        showRights();
+      }
+      if(window.questPress > 1000){
+        if(document.getElementsByClassName("moreQuest")[tempCh-1].innerText.slice(0,-2) == "? 6" || document.getElementsByClassName("moreQuest")[tempCh-1].innerText.slice(0,-2) == "? 7"){
+          window.questPress = 2001;
+          window.btnPress = 2001;
+          window.ansRight = "";
+          setTimeout(function(){
+            tabFunc();
+          }, 50);
+        }
+      }else{
+        //window.questPress = window.btnPress;
+        if(window.btnPress.slice(0,1) == "b"){
+          window.questPress = eval(window.btnPress.slice(-1));
+        }else{
+          window.questPress = window.btnPress;
+        }
+      }
+      if(window.whatText == "" || window.whatText == undefined){
+      }else{textCheck();}
+      setTimeout(function(){
+        tabFunc();
+        window.whatText = "";
+      }, 50);
+      setTimeout(function(){
+        //document.getElementById("hotSpotsHere").style.display = "none";
+        window.alreadyRight = 0;
+        //hideHots();
+      }, 150);
+      /*
+      document.getElementById("myVid").play();
+      setTimeout(function(){
+      var x = document.getElementsByClassName("realQuest");
+      var i;
+      for (i = 0; i < x.length; i++) {
+        if(whatDir !== "rtl"){
+          x[i].style.left = "-150%";
+        }else{
+          x[i].style.left = "150%";
+        }
+      }
+    }, 200);
+*/
+    }
+    function timeTick(){
+      console.log("time tick");
+      document.getElementsByClassName("inputNum")[tempCh-1].value -= 1;
+      if(document.getElementsByClassName("inputNum")[tempCh-1].value <= 0){
+        window.btnPress="a";questNextF();
+      }else{
+        myTimer = setTimeout(function(){ timeTick(); }, 1000);
+      }
+    }
+function checkMovie(){
+  checkDur = Math.floor(document.getElementById("myVid").duration*10);
+  checkDur = checkDur/10;
+  checkT = Math.floor(document.getElementById("myVid").currentTime*10);
+  checkT = checkT/10;
+  // document.getElementById("scoreDiv").innerHTML = window.realScore;
+  if(checkT == checkDur && window.hasStars == 0){
+    // switchScreen();
+    if(api.version !== null){
+      api.status("completed");
+      /*api.success("passed");
+      api.score(window.realScore);*/
+    }
+  }
+  var timeW = document.getElementById("myVid").duration;
+  var checkCT = document.getElementById("myVid").currentTime;
+  var percPo = (timeW/100);
+  var percPo = checkCT/percPo;
+  var percPo = percPo*100;
+  var percPo = Math.floor(percPo);
+  var percPo = percPo/100;
+  window.VV = percPo;
+  //console.log(percPo);
+
+  var x = document.getElementsByClassName("flag");
+  var i;
+  for (i = 0; i < x.length; i++) {
+    justTime = eval(x[i].id);
+    justTimeL = Math.floor(justTime);
+    justTimeM = Math.ceil(justTime);
+    // window.testMe = eval(x[i].innerHTML.split(":")[0]);
+    // window.testMeA = eval(x[i].innerHTML.split(":")[1]);
+// && x[i].parentNode.getElementsByClassName("questNextM")[0].style.opacity !== "0.5"
+// console.log(document.getElementById("myVid").currentTime);
+    if(document.getElementById("myVid").currentTime >= justTime && document.getElementById("myVid").currentTime <= (justTime + .01) && document.getElementById("vidWrapper").style.width == "100%"){
+      //console.log(window.testMe+"||"+document.getElementById("myVid").currentTime);
+      // if(whatDir !== "rtl"){
+        // x[i].parentNode.parentNode.style.left = "5%";
+        //document.getElementById("myVid").removeAttribute("controls");
+        document.getElementById("vidWrapper").style.left = "30%";
+        document.getElementById("vidWrapper").style.width = "60%";
+        document.getElementById("btnForPlay").innerText = "►";
+        document.getElementsByClassName("realQuest")[i].style.display = "block";
+        // if(document.getElementsByClassName("realQuest")[i].getElementsByClassName("questNext")[0].style.display == "block"){
+          document.getElementById("myVid").pause();
+          document.getElementById("myVid").currentTime = justTime + .011;
+          window.markOut = i;
+        // }
+      // }else{
+      //   //x[i].parentNode.parentNode.style.left = "0";
+      //   x[i].parentNode.parentNode.style.right = "-15%";
+      //   //document.getElementById("myVid").removeAttribute("controls");
+      //   document.getElementById("vidWrapper").style.left = "0";
+      //   document.getElementById("vidWrapper").style.width = "60%";
+      //   document.getElementById("btnForPlay").innerText = "►";
+      //   if(x[i].parentNode.getElementsByClassName("questNextM")[0].style.display == "block"){
+      //     document.getElementById("myVid").pause();
+      //     document.getElementById("myVid").currentTime = window.testMe;
+      //     window.markOut = i;
+      //   }
+      // }
+    }
+    
+    // if(document.getElementById("myVid").currentTime > window.testMeA){
+    //   if(whatDir !== "rtl"){
+    //     x[i].parentNode.parentNode.style.left = "-150%";
+    //   }else{
+    //     //x[i].parentNode.parentNode.style.left = "150%";
+    //     x[i].parentNode.parentNode.style.right = "-450%";
+    //   }
+    // }
+
+  }
+
+
+  if(window.dontPlayHead !== true){
+    document.getElementById("playHead").style.left = percPo+"%";
+    document.getElementById("myRange").value = document.getElementById("myVid").currentTime;
+  }
+  
+  setTimeout(function(){ checkMovie(); }, 1);
+}
+        // var x = document.getElementsByClassName("flag");
+        // var i;
+        // for (i = 0; i < x.length; i++) {
+        //   //justTime = document.getElementById("playHead").style.left.slice(0,-1);
+        //   justTime = eval(x[i].id);
+        //   justTimeL = Math.floor(justTime);
+        //   justTimeM = Math.ceil(justTime);
+        //   flagCheck = eval(x[i].style.left.slice(0,-1));
+        //   //flagCheck > justTimeL && flagCheck >= justTime && flagCheck < justTimeM
+        //   if(document.getElementById("myVid").currentTime >= justTime && document.getElementsByClassName("moreQuest")[i].style.display !== "none"){
+        //     //alert(x[i].style.left);
+        //     document.getElementsByClassName("moreQuest")[i].style.display = "none";
+        //   if(x[i].style.display !== "none"){
+        //     tempCh = x[i].innerText;
+        //     if(document.getElementsByClassName("changeQuest")[tempCh-1].style.height !== "80%"){
+        //       // if(document.getElementsByClassName("moreQuest")[tempCh-1].innerHTML.slice(2,3) == "5"){
+        //       //   document.getElementById("hotSpotsHere").style.pointerEvents = "all";
+        //       // }
+
+        //       // if(document.getElementsByClassName("moreQuest")[tempCh-1].innerHTML.slice(2,3) !== "7"){
+        //       // document.getElementById("myVid").pause();
+        //       // document.getElementById("myVid").currentTime = justTime;
+        //       // document.getElementById("playBtn").style.display = "none";
+        //       // window.stops += document.getElementById("myVid").currentTime+'  ';
+        //       // }
+        //     }
+        //     if(document.getElementsByClassName("questTime")[tempCh-1].style.display !== "none" && window.stopAlert !== 1){
+        //       console.log(document.getElementsByClassName("inputNum")[tempCh-1].value);
+        //       timerTime = document.getElementsByClassName("inputNum")[tempCh-1].value;
+        //       timerTime = timerTime *1000;
+        //       window.questPress = 1;
+        //       var x = document.getElementsByClassName("fillMe");
+        //       var i;
+        //       for (i = 0; i < x.length; i++) {
+        //         x[i].style.transition = "top 0ms linear 0s";
+        //         x[i].style.top = "-100%";
+        //       }
+        //       setTimeout(function(){
+        //       var x = document.getElementsByClassName("fillMe");
+        //       var i;
+        //       for (i = 0; i < x.length; i++) {
+        //         x[i].style.transition = "top "+timerTime+"ms linear 0s";
+        //         x[i].style.top = "0%";
+        //       }
+        //     }, 100);
+        //     if(document.getElementsByClassName("inputNum")[tempCh-1].value == "" || document.getElementsByClassName("inputNum")[tempCh-1].value == 0){
+        //       //alert(document.getElementsByClassName("questTime")[tempCh-1].innerHTML)
+        //       document.getElementsByClassName("questTime")[tempCh-1].style.display = "none";
+        //       //BBBB
+        //     }else{
+        //       //questTimer = setTimeout(function(){  }, timerTime);
+        //       setTimeout(function(){ timeTick(); }, 1000);
+        //       window.stopAlert = 1;
+        //     }
+        //   }
+        //     if(document.getElementsByClassName("questTime")[tempCh-1].style.display == "none"){
+        //       // if(document.getElementsByClassName("moreQuest")[tempCh-1].innerHTML.slice(2,3) == "6" || document.getElementsByClassName("moreQuest")[tempCh-1].innerHTML.slice(2,3) == "7"){
+        //       // }else{
+        //         makeBtnPress();
+        //       // }
+        //     }
+        //     // if(document.getElementsByClassName("moreQuest")[tempCh-1].innerHTML.slice(2,3) == "5" ){
+        //     //   document.getElementById("hotSpotsHere").style.display = "block";
+        //     //   hideHots();
+        //     //   document.getElementById("hotDrag_"+tempCh).style.display = "block";
+        //     // }else{
+        //       document.getElementById("hotSpotsHere").style.display = "none";
+        //     // }
+
+        //     if(whatDir !== "rtl"){
+        //       if(document.getElementsByClassName("changeQuest")[tempCh-1].style.height !== "80%"){
+        //         document.getElementsByClassName("realQuest")[tempCh-1].style.left = "5%";
+        //           //document.getElementById("myVid").removeAttribute("controls");
+        //           document.getElementById("vidWrapper").style.left = "30%";
+        //             document.getElementById("vidWrapper").style.width = "60%";
+        //           document.getElementById("btnForPlay").innerText = "►";
+        //       document.getElementsByClassName("innerQuest")[tempCh-1].style.display = "block";
+        //     }
+        //       //console.log("5%");
+        //     }else{
+        //       if(document.getElementsByClassName("changeQuest")[tempCh-1].style.height !== "80%"){
+        //       document.getElementsByClassName("realQuest")[tempCh-1].style.left = "0";
+        //       document.getElementsByClassName("realQuest")[tempCh-1].style.right = "-15%";
+        //           //document.getElementById("myVid").removeAttribute("controls");
+        //           document.getElementById("vidWrapper").style.left = "0";
+        //             document.getElementById("vidWrapper").style.width = "60%";
+        //           document.getElementById("btnForPlay").innerText = "►";
+        //       document.getElementsByClassName("innerQuest")[tempCh-1].style.display = "block";
+        //     }
+        //     }
+
+          //   if(document.getElementsByClassName("moreQuest")[tempCh-1].innerText.slice(0,-2) == "? 2" || document.getElementsByClassName("moreQuest")[tempCh-1].innerText.slice(0,-2) == "? 3"){
+          //   tempTemp = document.getElementById("td_"+tempCh+"_0").innerHTML;
+          //   if(tempTemp.substr(tempTemp.length - 8) == "checked>"){
+          //     window.ansRight += "td_"+tempCh+"_0";
+          //     document.getElementById("td_"+tempCh+"_0").innerHTML = tempTemp.slice(0,tempTemp.length - 8)+">";
+          //   }
+          //   if(tempTemp.substr(tempTemp.length - 11) == 'checked="">'){
+          //     window.ansRight += "td_"+tempCh+"_0";
+          //     document.getElementById("td_"+tempCh+"_0").innerHTML = tempTemp.slice(0,tempTemp.length - 11)+">";
+          //   }
+          //   tempTemp = document.getElementById("td_"+tempCh+"_1").innerHTML;
+          //   if(tempTemp.substr(tempTemp.length - 8) == "checked>"){
+          //     window.ansRight += "td_"+tempCh+"_1";
+          //     document.getElementById("td_"+tempCh+"_1").innerHTML = tempTemp.slice(0,tempTemp.length - 8)+">";
+          //   }
+          //   if(tempTemp.substr(tempTemp.length - 11) == 'checked="">'){
+          //     window.ansRight += "td_"+tempCh+"_1";
+          //     document.getElementById("td_"+tempCh+"_1").innerHTML = tempTemp.slice(0,tempTemp.length - 11)+">";
+          //   }
+          //   tempTemp = document.getElementById("td_"+tempCh+"_2").innerHTML;
+          //   if(tempTemp.substr(tempTemp.length - 8) == "checked>"){
+          //     window.ansRight += "td_"+tempCh+"_2";
+          //     document.getElementById("td_"+tempCh+"_2").innerHTML = tempTemp.slice(0,tempTemp.length - 8)+">";
+          //   }
+          //   if(tempTemp.substr(tempTemp.length - 11) == 'checked="">'){
+          //     window.ansRight += "td_"+tempCh+"_2";
+          //     document.getElementById("td_"+tempCh+"_2").innerHTML = tempTemp.slice(0,tempTemp.length - 11)+">";
+          //   }
+          //   tempTemp = document.getElementById("td_"+tempCh+"_3").innerHTML;
+          //   if(tempTemp.substr(tempTemp.length - 8) == "checked>"){
+          //     window.ansRight += "td_"+tempCh+"_3";
+          //     document.getElementById("td_"+tempCh+"_3").innerHTML = tempTemp.slice(0,tempTemp.length - 8)+">";
+          //   }
+          //   if(tempTemp.substr(tempTemp.length - 11) == 'checked="">'){
+          //     window.ansRight += "td_"+tempCh+"_3";
+          //     document.getElementById("td_"+tempCh+"_3").innerHTML = tempTemp.slice(0,tempTemp.length - 11)+">";
+          //   }
+          //   tempTemp = document.getElementById("td_"+tempCh+"_4").innerHTML;
+          //   if(tempTemp.substr(tempTemp.length - 8) == "checked>"){
+          //     window.ansRight += "td_"+tempCh+"_4";
+          //     document.getElementById("td_"+tempCh+"_4").innerHTML = tempTemp.slice(0,tempTemp.length - 8)+">";
+          //   }
+          //   if(tempTemp.substr(tempTemp.length - 11) == 'checked="">'){
+          //     window.ansRight += "td_"+tempCh+"_4";
+          //     document.getElementById("td_"+tempCh+"_4").innerHTML = tempTemp.slice(0,tempTemp.length - 11)+">";
+          //   }
+          //   tempTemp = document.getElementById("td_"+tempCh+"_5").innerHTML;
+          //   if(tempTemp.substr(tempTemp.length - 8) == "checked>"){
+          //     window.ansRight += "td_"+tempCh+"_5";
+          //     document.getElementById("td_"+tempCh+"_5").innerHTML = tempTemp.slice(0,tempTemp.length - 8)+">";
+          //   }
+          //   if(tempTemp.substr(tempTemp.length - 11) == 'checked="">'){
+          //     window.ansRight += "td_"+tempCh+"_5";
+          //     document.getElementById("td_"+tempCh+"_5").innerHTML = tempTemp.slice(0,tempTemp.length - 11)+">";
+          //   }
+          // }
+
+          // if(document.getElementsByClassName("moreQuest")[tempCh-1].innerText.slice(0,-2) == "? 6" || document.getElementsByClassName("moreQuest")[tempCh-1].innerText.slice(0,-2) == "? 7"){
+          //   tempTemp = document.getElementById("star_"+tempCh+"_1").innerHTML;
+          //   if(window.stopUpdate !== 1){
+          //     testStars();
+          //   }
+          //   setTimeout(function(){
+          //     window.stopUpdate = 1;
+          //   }, 1000);
+          // }
+        //   }
+        // }
+        // }
+        //console.log(percPo);
+        // var x = document.getElementsByClassName("titleMenu");
+        // var i;
+        // for (i = 0; i < x.length; i++) {
+        //     chapterTime = document.getElementById("myVid").currentTime*10;
+        //     chapterTime = Math.floor(chapterTime);
+        //     chapterTime = chapterTime/10;
+        //     x[i].checkTiming =  eval(x[i].id);
+        //     x[i].checkTiming = Math.floor(x[i].checkTiming)
+        //     //console.log("id "+x[i].id+": "+x[i].checkTiming)
+        //     if(x[i].checkTiming == chapterTime && window.chapterVar == "1"){
+        //         //console.log("Chapter "+x[i].id);
+        //         document.getElementById("chapterScreen").getElementsByTagName("p")[0].innerText = document.getElementsByClassName("titleMenu")[i].innerText;
+        //         showChapter();
+        //         window.chapterVar = "0";
+        //     }
+        // }
+    
+
+    // function showChapter(){
+    //     //console.log("SHOW CHAPTER");
+    //     document.getElementById("chapterScreen").style.top = document.getElementById("myVid").style.border.split(" ")[0];
+    //     document.getElementById("chapterScreen").style.height = document.getElementById("myVid").clientHeight+"px";
+    //     document.getElementById("chapterScreen").style.opacity = "1";
+    //     document.getElementById("myVid").pause();
+    //     setTimeout(function(){
+    //         if(document.getElementById("chapterScreen").style.opacity == "1"){
+    //             document.getElementById("chapterScreen").style.opacity = "0";
+    //             document.getElementById("btnForPlay").innerText = "II";
+    //             document.getElementById("myVid").play();
+    //             setTimeout(function(){
+    //                 window.chapterVar = "1";
+    //             }, 500);
+    //         }
+    //     }, 4000);
+    // }
+   
+    function showRights(){
+      var x = document.getElementsByClassName("starTitle");
+      var i;
+      for (i = 0; i < x.length; i++) {
+        //x[i].innerHTML += x[i].rightstar;
+        if(x[i].id.split("_")[1] == tempCh){
+        x[i].style.pointerEvents = "all";
+        x[i].style.textDecoration = "underline";
+      }
+    }
+      var x = document.getElementsByClassName("starDiv");
+      var i;
+      for (i = 0; i < x.length; i++) {
+        //x[i].innerHTML += x[i].rightstar;
+        if(x[i].id.split("_")[1] == tempCh){
+        x[i].innerHTML += "<div class='rightStar' style='max-width:"+(x[i].rightstar*20)+"%;background-color:#"+window.rColor+";'></div>"
+        x[i].childNodes[4].style.pointerEvents="none";
+        x[i].childNodes[3].style.pointerEvents="none";
+        x[i].childNodes[2].style.pointerEvents="none";
+        x[i].childNodes[1].style.pointerEvents="none";
+        x[i].childNodes[0].style.pointerEvents="none";
+        //alert(x[i].id);
+        if(x[i].childNodes[4].innerHTML == "★" || x[i].childNodes[4].innerHTML.slice(0,1) == "★"){
+          x[i].childNodes[4].style.color = "#"+window.btnColor;
+          x[i].childNodes[4].style.backgroundColor = "#"+window.btnColor;
+          x[i].childNodes[3].style.backgroundColor = "#"+window.btnColor;
+          x[i].childNodes[2].style.backgroundColor = "#"+window.btnColor;
+          x[i].childNodes[1].style.backgroundColor = "#"+window.btnColor;
+          x[i].childNodes[0].style.backgroundColor = "#"+window.btnColor;
+          x[i].childNodes[4].innerHTML+="<div class='starAns' style='color:#"+window.btnTColor+";'>★</div>"
+          x[i].childNodes[3].innerHTML+="<div class='starAns' style='color:#"+window.btnTColor+";'>★</div>"
+          x[i].childNodes[2].innerHTML+="<div class='starAns' style='color:#"+window.btnTColor+";'>★</div>"
+          x[i].childNodes[1].innerHTML+="<div class='starAns' style='color:#"+window.btnTColor+";'>★</div>"
+          x[i].childNodes[0].innerHTML+="<div class='starAns' style='color:#"+window.btnTColor+";'>★</div>"
+          x[i].thisAns = "5";
+        }else{
+          if(x[i].childNodes[3].innerHTML == "★" || x[i].childNodes[3].innerHTML.slice(0,1) == "★"){
+            x[i].childNodes[3].style.color = "#"+window.btnColor;
+            x[i].childNodes[3].style.backgroundColor = "#"+window.btnColor;
+            x[i].childNodes[2].style.backgroundColor = "#"+window.btnColor;
+            x[i].childNodes[1].style.backgroundColor = "#"+window.btnColor;
+            x[i].childNodes[0].style.backgroundColor = "#"+window.btnColor;
+            x[i].childNodes[4].style.opacity = 0;
+            x[i].childNodes[3].innerHTML+="<div class='starAns' style='color:#"+window.btnTColor+";'>★</div>"
+            x[i].childNodes[2].innerHTML+="<div class='starAns' style='color:#"+window.btnTColor+";'>★</div>"
+            x[i].childNodes[1].innerHTML+="<div class='starAns' style='color:#"+window.btnTColor+";'>★</div>"
+            x[i].childNodes[0].innerHTML+="<div class='starAns' style='color:#"+window.btnTColor+";'>★</div>"
+            x[i].thisAns = "4";
+          }else{
+            if(x[i].childNodes[2].innerHTML == "★" || x[i].childNodes[2].innerHTML.slice(0,1) == "★"){
+              x[i].childNodes[2].style.color = "#"+window.btnColor;
+              x[i].childNodes[2].style.backgroundColor = "#"+window.btnColor;
+              x[i].childNodes[1].style.backgroundColor = "#"+window.btnColor;
+              x[i].childNodes[0].style.backgroundColor = "#"+window.btnColor;
+              x[i].childNodes[4].style.opacity = 0;
+              x[i].childNodes[3].style.opacity = 0;
+              x[i].childNodes[2].innerHTML+="<div class='starAns' style='color:#"+window.btnTColor+";'>★</div>"
+              x[i].childNodes[1].innerHTML+="<div class='starAns' style='color:#"+window.btnTColor+";'>★</div>"
+              x[i].childNodes[0].innerHTML+="<div class='starAns' style='color:#"+window.btnTColor+";'>★</div>"
+              x[i].thisAns = "3";
+            }else{
+              if(x[i].childNodes[1].innerHTML == "★" || x[i].childNodes[1].innerHTML.slice(0,1) == "★"){
+                x[i].childNodes[1].style.color = "#"+window.btnColor;
+                x[i].childNodes[1].style.backgroundColor = "#"+window.btnColor;
+                x[i].childNodes[0].style.backgroundColor = "#"+window.btnColor;
+                x[i].childNodes[4].style.opacity = 0;
+                x[i].childNodes[3].style.opacity = 0;
+                x[i].childNodes[2].style.opacity = 0;
+                x[i].childNodes[1].innerHTML+="<div class='starAns' style='color:#"+window.btnTColor+";'>★</div>"
+                x[i].childNodes[0].innerHTML+="<div class='starAns' style='color:#"+window.btnTColor+";'>★</div>"
+                x[i].thisAns = "2";
+              }else{
+                if(x[i].childNodes[0].innerHTML == "★" || x[i].childNodes[0].innerHTML.slice(0,1) == "★"){
+                  x[i].childNodes[0].style.color = "#"+window.btnColor;
+                  x[i].childNodes[0].style.backgroundColor = "#"+window.btnColor;
+                  x[i].childNodes[0].style.backgroundColor = "#"+window.btnColor;
+                  x[i].childNodes[4].style.opacity = 0;
+                  x[i].childNodes[3].style.opacity = 0;
+                  x[i].childNodes[2].style.opacity = 0;
+                  x[i].childNodes[1].style.opacity = 0;
+                  x[i].childNodes[0].innerHTML+="<div class='starAns' style='color:#"+window.btnTColor+";'>★</div>"
+                  x[i].thisAns = "1";
+                }
+              }
+            }
+          }
+        }
+      }
+      //alert(x[i].rightstar+":"+x[i].thisAns)
+      if(x[i].rightstar == x[i].thisAns){
+        moreScore();
+      }
+      if(eval(x[i].rightstar) == eval(x[i].thisAns)+1){
+        moreScore();
+      }
+      if(eval(x[i].rightstar) == eval(x[i].thisAns)-1){
+        moreScore();
+      }
+      }
+      setTimeout(function(){
+        document.getElementsByClassName("changeQuest")[tempCh-1].style.display = "none";
+        document.getElementsByClassName("changeQuest")[tempCh-1].style.height = "80%";
+        document.getElementsByClassName("changeQuest")[tempCh-1].style.paddingTop = "0.35em";
+
+      var x = document.getElementsByClassName("rightStar");
+      var i;
+      for (i = 0; i < x.length; i++) {
+        //x[i].innerHTML += x[i].rightstar;
+        x[i].style.width = x[i].style.maxWidth;
+      }
+      }, 100);
+      var x = document.getElementsByClassName("starDiv");
+      var i;
+      for (i = 0; i < x.length; i++) {
+
+      }
+      setTimeout(function(){
+        window.questPress = 1001;
+        window.btnPress = 1001;
+        }, 100);
+        if(whatDir !== "rtl"){
+          var x = document.getElementsByClassName("starAns");
+          var i;
+          for (i = 0; i < x.length; i++) {
+            x[i].style.left = "auto"
+            x[i].style.right = ".2em"
+          }
+        }else{
+          var x = document.getElementsByClassName("starAns");
+          var i;
+          for (i = 0; i < x.length; i++) {
+            x[i].style.left = ".2em"
+            x[i].style.right = "auto"
+          }
+        }
+        if(document.getElementsByClassName("moreQuest")[tempCh-1].innerHTML.slice(2,3) == "7"){
+          //alert("NO");
+          document.getElementsByClassName("questNext")[tempCh-1].style.opacity = 0;
+          document.getElementsByClassName("questNext")[tempCh-1].style.pointerEvents = "none";
+        }
+    }
+   
+    function playThis(){
+      checkFrom = document.getElementById(window.playPlay).getElementsByClassName("timeFrom")[0].innerHTML;
+      checkTill = document.getElementById(window.playPlay).getElementsByClassName("timeTill")[0].innerHTML;
+      //alert(checkFrom+"_"+checkTill);
+      document.getElementById("myVid").play();
+      setTimeout(function(){
+        document.getElementById("myVid").currentTime = checkFrom;
+        whenStop();
+      }, 10);
+    }
+    function whenStop(){
+      if(document.getElementById("myVid").currentTime >= window.checkTill){
+        document.getElementById("myVid").pause();
+      }else{
+        setTimeout(function(){
+          whenStop();
+        }, 10);
+      }
+    }
+    function closeFunc(){
+      window.close();
+    }
+    function restartFunc(){
+      location.reload();
+    }
+    function pleaseDont(){
+        window.dontPlayHead = true;
+        document.getElementById("myVid").pause();
+    }
+    function pleaseAgain(){
+        window.dontPlayHead = false;
+        document.getElementById("myVid").currentTime = document.getElementById("myRange").value;
+        document.getElementById("myVid").play();
+    }
+    function updateTime(){
+        realTime = Math.floor(document.getElementById("myVid").currentTime);
+        totalTime = Math.floor(document.getElementById("myVid").duration);
+        if(totalTime > 59){
+            checkMin = Math.floor(totalTime/60);
+            totalTime = checkMin+":"+(totalTime-(checkMin*60));
+        }else{
+            totalTime = "0:"+totalTime;
+        }
+        if(eval(totalTime.split(":")[0]) < 10){
+            totalTime = "0"+totalTime;
+        }
+        if(eval(totalTime.split(":")[1]) < 10){
+            totalTime = totalTime.replace(":", ":0");
+        }
+        if(realTime > 59){
+            checkMins = Math.floor(realTime/60);
+            realTime = checkMins+":"+(realTime-(checkMins*60));
+        }else{
+            realTime = "0:"+realTime;
+        }
+        if(eval(realTime.split(":")[0]) < 10){
+            realTime = "0"+realTime;
+        }
+        if(eval(realTime.split(":")[1]) < 10){
+            realTime = realTime.replace(":", ":0");
+        }
+        document.getElementById("howTime").innerHTML = realTime+"/"+totalTime;
+        setTimeout(function(){
+          updateTime();
+        }, 10);
+    }
+    
+    function trChecking(){
+        var x = document.getElementsByTagName("tr");
+        var i;
+        for (i = 0; i < x.length; i++) {
+            x[i].id = "tr_"+x[i].getElementsByTagName("td")[0].id.split("td_")[1];
+        }
+        /*var x = document.getElementsByTagName("td");
+        var i;
+        for (i = 0; i < x.length; i++) {
+            if(x[i].id.slice(-1) == "0"){
+                x[i].innerHTML += "A";
+            }
+            if(x[i].id.slice(-1) == "1"){
+                x[i].innerHTML += "B";
+            }
+            if(x[i].id.slice(-1) == "2"){
+                x[i].innerHTML += "C";
+            }
+            if(x[i].id.slice(-1) == "3"){
+                x[i].innerHTML += "D";
+            }
+            if(x[i].id.slice(-1) == "4"){
+                x[i].innerHTML += "E";
+            }
+            if(x[i].id.slice(-1) == "5"){
+                x[i].innerHTML += "F";
+            }
+        }*/
+        
+        var x = document.getElementsByTagName("tr");
+        var i;
+        for (i = 0; i < x.length; i++) {
+            x[i].addEventListener("click", function(){
+            //alert(this.id);
+                if(this.getElementsByTagName("input")[0].type == "radio"){
+                    numm = this.id.slice(-1);
+                    radioNum();
+                    var x = document.getElementsByTagName("tr");
+                    var i;
+                    for (i = 0; i < x.length; i++) {
+                        x[i].style.opacity = 1;
+                    }
+                    this.style.opacity = 0.6;
+                }
+                if(this.getElementsByTagName("input")[0].type == "checkbox"){
+                    numm = this.id.slice(-1);
+                    setTimeout(function(){ checkboxNum(); }, 20);
+                    
+                    if(this.getElementsByTagName("td")[1].innerHTML.slice(-3,-2) == "x"){
+                        this.getElementsByTagName("td")[1].innerHTML = this.getElementsByTagName("td")[1].innerHTML.slice(0,-1) + " checked>";
+                    }else{
+                        this.getElementsByTagName("td")[1].innerHTML = this.getElementsByTagName("td")[1].innerHTML.slice(0,-12) + ">"
+                    }
+                    if(this.style.opacity == 0.6){
+                        this.style.opacity = 1;
+                    }else{
+                        this.style.opacity = 0.6;
+                    }
+                }
+                
+        });
+        }
+        
+        var x = document.getElementsByTagName("tr");
+        var i;
+        for (i = 0; i < x.length; i++) {
+            if(x[i].id.slice(-1) == "0"){
+                x[i].innerHTML = "<td>A.</td>"+x[i].innerHTML;
+            }
+            if(x[i].id.slice(-1) == "1"){
+                x[i].innerHTML = "<td>B.</td>"+x[i].innerHTML;
+            }
+            if(x[i].id.slice(-1) == "2"){
+                x[i].innerHTML = "<td>C.</td>"+x[i].innerHTML;
+            }
+            if(x[i].id.slice(-1) == "3"){
+                x[i].innerHTML = "<td>D.</td>"+x[i].innerHTML;
+            }
+            if(x[i].id.slice(-1) == "4"){
+                x[i].innerHTML = "<td>E.</td>"+x[i].innerHTML;
+            }
+            if(x[i].id.slice(-1) == "5"){
+                x[i].innerHTML = "<td>F.</td>"+x[i].innerHTML;
+            }
+        }
+    }
+    setTimeout(function(){
+          trChecking();
+        }, 3000);
+    
+</script>
+    <style>
+        .questQuest tr{
+            cursor: pointer;
+            transition: all 200ms linear 0s;
+        }
+        input[type="radio"], input[type="checkbox"]{
+            display: none;
+            color: #ffffff;
+            font-size: 1.1em;
+            transform: translateY(-.4em);
+        }
+    </style>
+</head>
+<body onload="loadJS();updateTime();window.hasStars=0;window.stops='';window.realScore=0;window.flagNum=0;window.whatScreen=2;window.settingsVar=1;window.pleaseDrag=1;whenResize();" onresize="whenResize();">
+  <div id="wrapper">
+
+
+
+
+<!-- <div id="textDiv">
+  <div id="textTitle">Welcome Title</div>
+  <div id="innerText">
+  Lorem ipsum dolor sit amet, consectetur adipiscing elit. In suscipit luctus massa, et vehicula nisi mollis sit amet. Nulla nec diam fringilla quam ornare fermentum. Integer tellus urna, varius ut ipsum egestas, hendrerit tempus nisi. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Praesent in orci nec neque mollis fermentum vitae tincidunt justo. Suspendisse potenti. Nam sollicitudin luctus diam, non vehicula nisi euismod at. Sed purus metus, aliquet sed pretium sed, pulvinar nec neque. Aenean in odio quis neque feugiat mollis at at orci.
+  </div>
+  <button id="nextBTN" onclick="switchScreen();">NEXT</button>
+</div> -->
+
+<!-- <div id="endingDiv">
+  <div id="endTitle">Ending Title</div>
+  <div id="innerEnding">Closing Text Goes Here.</div>
+  <div id="scoreEnd">80</div>
+  <button id="endBTN" onclick="closeFunc();">CLOSE</button>
+  <button id="restartBTN" onclick="restartFunc();">RESTART</button>
+</div> -->
+
+<div id="vidWrapper">
+    <!-- <div id="menuBtnToggle" onclick="menuToggle();" title="Menu">III</div>
+      <div id="chapterMenu"></div> -->
+  <video id="myVid" class="video-js" src="" onresize="whenResize();" preload="auto">s
+    </video>
+    <div id="videoSize">
+        <div id="btnForPlay" onclick="videoPlay();">►</div>
+        <div id="videoRealSize" onclick="window.alreadyPlay=0;videoPlay();"></div>
+        <input type="range" min="1" max="100" value="50" class="slider" id="myRange" onmousedown="pleaseDont();" onmouseup="pleaseAgain();">
+        <div id="howTime">10/1400</div>
+    </div>
+    
+  <div id="videoOverlay" onclick="videoPlay();" onmouseover="overHover();" onmouseout="overOut();"><div id="chapterScreen"><p>Chapter Screen</p></div><div id="playBtn">►</div>
+    <div id="playerScroll" onclick="window.alreadyPlay=0;videoPlay();">
+    <div id="flagDiv"></div>
+        <div id="timeLine" class="slidecontainer">
+            <input type="range" min="1" max="100" value="50" class="slider" id="playHead" onmousedown="pleaseDont();">
+        </div>
+  </div><div id="hotSpotsHere" onclick="hotWrong();"></div></div>
+</div>
+<div id="realQuestDiv">
+</div>
+
+<!-- <div id="kindDiv">
+  <div>
+    <button onclick="closeKind();">X</button><br/>
+    <b>Select the type of question:</b>
+    <form>
+      <label><input type="radio" name="questType" value="1" id="1" onclick="window.kindOf=1" checked> Attention</label><br>
+      <label><input type="radio" name="questType" value="2" id="2" onclick="window.kindOf=2"> Pick One</label><br>
+      <label><input type="radio" name="questType" value="3" id="3" onclick="window.kindOf=3"> Pick many</label><br>
+      <label><input type="radio" name="questType" value="4" id="4" onclick="window.kindOf=4"> Text Entry</label><br>
+      <label><input type="radio" name="questType" value="5" id="5" onclick="window.kindOf=5"> Hotspot</label>
+    </form><br/>
+    <b>Select the question size:</b>
+    <form>
+      <label><input type="radio" name="questHeight" value="1" id="6" onclick="window.heightOf=1" checked> Full</label><br>
+      <label><input type="radio" name="questHeight" value="2" id="7" onclick="window.heightOf=2"> Half</label>
+    </form>
+    <button onclick="acceptKind();">OK</button>
+  </div>
+</div> -->
+<!-- <div id="scoreDiv">0</div> -->
+</body>
+</html>
